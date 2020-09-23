@@ -2,7 +2,7 @@ import UIKit
 
 final class SegmentedControl: UISegmentedControl {
     
-    public typealias Action = (Int) -> Swift.Void
+    typealias Action = (Int) -> Swift.Void
     
     fileprivate var action: Action?
     

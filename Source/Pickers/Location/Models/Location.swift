@@ -3,15 +3,15 @@ import CoreLocation
 import Contacts
 
 // class because protocol
-public class Location: NSObject {
-	public let name: String?
+class Location: NSObject {
+	let name: String?
 	
 	// difference from placemark location is that if location was reverse geocoded,
 	// then location point to user selected location
-	public let location: CLLocation
-	public let placemark: CLPlacemark
+	let location: CLLocation
+	let placemark: CLPlacemark
 	
-	public var address: String {
+	var address: String {
         if let postalAddress = placemark.postalAddress {
             let formatter = CNPostalAddressFormatter()
             formatter.style = .mailingAddress
@@ -21,7 +21,7 @@ public class Location: NSObject {
         }
 	}
 	
-	public init(name: String?, location: CLLocation? = nil, placemark: CLPlacemark) {
+	init(name: String?, location: CLLocation? = nil, placemark: CLPlacemark) {
 		self.name = name
 		self.location = location ?? placemark.location!
 		self.placemark = placemark
@@ -32,11 +32,11 @@ import MapKit
 
 extension Location: MKAnnotation {
     
-    @objc public var coordinate: CLLocationCoordinate2D {
+    @objc var coordinate: CLLocationCoordinate2D {
 		return location.coordinate
 	}
 	
-    public var title: String? {
+    var title: String? {
 		return address
 	}
 }

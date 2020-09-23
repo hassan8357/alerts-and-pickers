@@ -10,19 +10,19 @@ class PhotoLayout: UICollectionViewLayout {
     
     weak var delegate: PhotoLayoutDelegate!
     
-    public var lineSpacing: CGFloat = 6
+    var lineSpacing: CGFloat = 6
     
     fileprivate var previousAttributes = [UICollectionViewLayoutAttributes]()
     fileprivate var currentAttributes = [UICollectionViewLayoutAttributes]()
     
     fileprivate var contentSize: CGSize = .zero
-    public var selectedCellIndexPath: IndexPath?
+    var selectedCellIndexPath: IndexPath?
     
     override var collectionViewContentSize: CGSize {
         return contentSize
     }
     
-    override public var collectionView: UICollectionView {
+    override var collectionView: UICollectionView {
         return super.collectionView!
     }
     
@@ -38,7 +38,7 @@ class PhotoLayout: UICollectionViewLayout {
         return collectionView.numberOfItems(inSection: section)
     }
     
-    override public func invalidateLayout() {
+    override func invalidateLayout() {
         super.invalidateLayout()
     }
     

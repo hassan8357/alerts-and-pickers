@@ -2,14 +2,14 @@ import UIKit
 
 open class Label: UILabel {
     
-    public typealias Action = (Label) -> Swift.Void
+    typealias Action = (Label) -> Swift.Void
     
     fileprivate var actionOnTouch: Action?
     
     open var insets: UIEdgeInsets = .zero
     
     override open func drawText(in rect: CGRect) {
-        super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
+        super.drawText(in: rect.inset(by: insets))
     }
     
     // Override -intrinsicContentSize: for Auto layout code
@@ -28,7 +28,7 @@ open class Label: UILabel {
         return contentSize
     }
     
-    public func action(_ closure: @escaping Action) {
+    func action(_ closure: @escaping Action) {
         Log("action did set")
         if actionOnTouch == nil {
             let gesture = UITapGestureRecognizer(

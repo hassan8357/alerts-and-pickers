@@ -2,12 +2,12 @@ import Foundation
 import UIKit
 import Photos
 
-public struct Assets {
+struct Assets {
     
     /// Requests access to the user's contacts
     ///
     /// - Parameter requestGranted: Result as Bool
-    public static func requestAccess(_ requestGranted: @escaping (PHAuthorizationStatus) -> ()) {
+    static func requestAccess(_ requestGranted: @escaping (PHAuthorizationStatus) -> ()) {
         PHPhotoLibrary.requestAuthorization { status in
             requestGranted(status)
         }
@@ -17,12 +17,12 @@ public struct Assets {
     ///
     /// - Success: Returns Array of PHAsset
     /// - Error: Returns error
-    public enum FetchResults {
+    enum FetchResults {
         case success(response: [PHAsset])
         case error(error: Error)
     }
     
-    public static func fetch(_ completion: @escaping (FetchResults) -> Void) {
+    static func fetch(_ completion: @escaping (FetchResults) -> Void) {
         guard PHPhotoLibrary.authorizationStatus() == .authorized else {
             let error: NSError = NSError(domain: "PhotoLibrary Error", code: 1, userInfo: [NSLocalizedDescriptionKey: "No PhotoLibrary Access"])
             completion(FetchResults.error(error: error))
@@ -49,12 +49,12 @@ public struct Assets {
     ///
     /// - Success: Returns UIImage
     /// - Error: Returns error
-    public enum ResolveResult {
+    enum ResolveResult {
         case success(response: UIImage?)
         case error(error: Error)
     }
     
-    public static func resolve(asset: PHAsset, size: CGSize = PHImageManagerMaximumSize, completion: @escaping (_ image: UIImage?) -> Void) {
+    static func resolve(asset: PHAsset, size: CGSize = PHImageManagerMaximumSize, completion: @escaping (_ image: UIImage?) -> Void) {
         let imageManager = PHImageManager.default()
         
         let requestOptions = PHImageRequestOptions()
@@ -75,12 +75,12 @@ public struct Assets {
     ///
     /// - Success: Returns Array of UIImage
     /// - Error: Returns error
-    public enum ResolveResults {
+    enum ResolveResults {
         case success(response: [UIImage])
         case error(error: Error)
     }
     
-    public static func resolve(assets: [PHAsset], size: CGSize = CGSize(width: 720, height: 1280), completion: @escaping (_ images: [UIImage]) -> Void) -> [UIImage] {
+    static func resolve(assets: [PHAsset], size: CGSize = CGSize(width: 720, height: 1280), completion: @escaping (_ images: [UIImage]) -> Void) -> [UIImage] {
         let imageManager = PHImageManager.default()
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true

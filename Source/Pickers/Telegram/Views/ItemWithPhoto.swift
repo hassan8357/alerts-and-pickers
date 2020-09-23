@@ -32,17 +32,17 @@ final class ItemWithPhoto: UICollectionViewCell {
     
     fileprivate let inset: CGFloat = 6
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
     
-    public func setup() {
+    func setup() {
         backgroundColor = .clear
         
         let unselected: UIView = UIView()
@@ -56,7 +56,7 @@ final class ItemWithPhoto: UICollectionViewCell {
         selectedBackgroundView = selected
     }
     
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = contentView.frame
         imageView.cornerRadius = 12

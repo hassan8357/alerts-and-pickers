@@ -4,19 +4,19 @@ class TypeOneCell: UICollectionViewCell {
     
     static let identifier = String(describing: TypeOneCell.self)
     
-    public lazy var imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         $0.contentMode = .center
         return $0
     }(UIImageView())
     
-    public lazy var title: UILabel = {
+    lazy var title: UILabel = {
         $0.font = .systemFont(ofSize: UIDevice.current.userInterfaceIdiom == .pad ? 20 : 17)
         $0.textColor = .black
         $0.numberOfLines = 1
         return $0
     }(UILabel())
     
-    public lazy var subtitle: UILabel = {
+    lazy var subtitle: UILabel = {
         $0.font = .systemFont(ofSize: UIDevice.current.userInterfaceIdiom == .pad ? 15 : 13)
         $0.textColor = .gray
         $0.numberOfLines = 1
@@ -25,12 +25,12 @@ class TypeOneCell: UICollectionViewCell {
     
     fileprivate let textView = UIView()
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
@@ -43,7 +43,7 @@ class TypeOneCell: UICollectionViewCell {
         textView.addSubview(subtitle)
     }
     
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         //Log("layoutMargins = \(layoutMargins), contentView = \(contentView.bounds)")
         layout()

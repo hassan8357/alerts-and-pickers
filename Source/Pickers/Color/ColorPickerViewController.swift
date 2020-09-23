@@ -32,7 +32,7 @@ extension UIAlertController {
 
 class ColorPickerViewController: UIViewController {
     
-    public typealias Selection = (UIColor) -> Swift.Void
+    typealias Selection = (UIColor) -> Swift.Void
     
     fileprivate var selection: Selection?
     
@@ -44,14 +44,14 @@ class ColorPickerViewController: UIViewController {
     
     @IBOutlet weak var mainStackView: UIStackView!
     
-    public var color: UIColor {
+    var color: UIColor {
         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
     
-    public var hue: CGFloat = 0.5
-    public var saturation: CGFloat = 0.5
-    public var brightness: CGFloat = 0.5
-    public var alpha: CGFloat = 1
+    var hue: CGFloat = 0.5
+    var saturation: CGFloat = 0.5
+    var brightness: CGFloat = 0.5
+    var alpha: CGFloat = 1
     
     fileprivate var preferredHeight: CGFloat = 0
     

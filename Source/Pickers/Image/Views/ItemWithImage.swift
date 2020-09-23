@@ -34,12 +34,12 @@ class ItemWithImage: UICollectionViewCell {
     
     fileprivate let inset: CGFloat = 8
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
@@ -58,7 +58,7 @@ class ItemWithImage: UICollectionViewCell {
         selectedBackgroundView = selected
     }
     
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         layout()
     }

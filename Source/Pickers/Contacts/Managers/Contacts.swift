@@ -5,13 +5,13 @@ import CoreTelephony
 
 /// https://github.com/satishbabariya/SwiftyContacts
 
-public struct Contacts {
+struct Contacts {
     
     /// Result Enum
     ///
     /// - Success: Returns Array of Contacts
     /// - Error: Returns error
-    public enum FetchResults {
+    enum FetchResults {
         case success(response: [CNContact])
         case error(error: Error)
     }
@@ -20,7 +20,7 @@ public struct Contacts {
     ///
     /// - Success: Returns Contact
     /// - Error: Returns error
-    public enum FetchResult {
+    enum FetchResult {
         case success(response: CNContact)
         case error(error: Error)
     }
@@ -29,7 +29,7 @@ public struct Contacts {
     ///
     /// - Success: Returns Grouped By Alphabets Contacts
     /// - Error: Returns error
-    public enum GroupedByAlphabetsFetchResults {
+    enum GroupedByAlphabetsFetchResults {
         case success(response: [String: [CNContact]])
         case error(error: Error)
     }
@@ -37,7 +37,7 @@ public struct Contacts {
     /// Requests access to the user's contacts
     ///
     /// - Parameter requestGranted: Result as Bool
-    public static func requestAccess(_ requestGranted: @escaping (Bool, Error?) -> ()) {
+    static func requestAccess(_ requestGranted: @escaping (Bool, Error?) -> ()) {
         CNContactStore().requestAccess(for: .contacts) { grandted, error in
             requestGranted(grandted, error)
         }
@@ -46,7 +46,7 @@ public struct Contacts {
     /// Returns the current authorization status to access the contact data.
     ///
     /// - Parameter requestStatus: Result as CNAuthorizationStatus
-    public static func authorizationStatus(_ requestStatus: @escaping (CNAuthorizationStatus) -> ()) {
+    static func authorizationStatus(_ requestStatus: @escaping (CNAuthorizationStatus) -> ()) {
         requestStatus(CNContactStore.authorizationStatus(for: .contacts))
     }
     
@@ -55,7 +55,7 @@ public struct Contacts {
     /// Fetching Contacts from phone
     ///
     /// - Parameter completionHandler: Returns Either [CNContact] or Error.
-    public static func fetchContacts(completionHandler: @escaping (_ result: FetchResults) -> ()) {
+    static func fetchContacts(completionHandler: @escaping (_ result: FetchResults) -> ()) {
         
         let contactStore: CNContactStore = CNContactStore()
         var contacts: [CNContact] = [CNContact]()
@@ -76,7 +76,7 @@ public struct Contacts {
     ///   - sortOrder: To return contacts in a specific sort order.
     ///   - completionHandler: Result Handler
     @available(iOS 10.0, *)
-    public static func fetchContacts(ContactsSortorder sortOrder: CNContactSortOrder, completionHandler: @escaping (_ result: FetchResults) -> ()) {
+    static func fetchContacts(ContactsSortorder sortOrder: CNContactSortOrder, completionHandler: @escaping (_ result: FetchResults) -> ()) {
         
         let contactStore: CNContactStore = CNContactStore()
         var contacts: [CNContact] = [CNContact]()
@@ -97,7 +97,7 @@ public struct Contacts {
     ///
     /// - Parameter completionHandler: It will return Dictonary of Alphabets with Their Sorted Respective Contacts.
      @available(iOS 10.0, *)
-     public static func fetchContactsGroupedByAlphabets(completionHandler: @escaping (GroupedByAlphabetsFetchResults) -> ()) {
+     static func fetchContactsGroupedByAlphabets(completionHandler: @escaping (GroupedByAlphabetsFetchResults) -> ()) {
         
         let contactStore: CNContactStore = CNContactStore()
         let fetchRequest: CNContactFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactVCardSerialization.descriptorForRequiredKeys()])
@@ -130,7 +130,7 @@ public struct Contacts {
     
     /// Fetching Contacts from phone
     /// - parameter completionHandler: Returns Either [CNContact] or Error.
-    public static func fetchContactsOnBackgroundThread(completionHandler: @escaping (_ result: FetchResults) -> ()) {
+    static func fetchContactsOnBackgroundThread(completionHandler: @escaping (_ result: FetchResults) -> ()) {
         
         DispatchQueue.global(qos: .userInitiated).async(execute: { () -> () in
             let fetchRequest: CNContactFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactVCardSerialization.descriptorForRequiredKeys()])
@@ -163,7 +163,7 @@ public struct Contacts {
     /// Search Contact from phone
     /// - parameter string: Search String.
     /// - parameter completionHandler: Returns Either [CNContact] or Error.
-    public static func searchContact(searchString string: String, completionHandler: @escaping (_ result: FetchResults) -> ()) {
+    static func searchContact(searchString string: String, completionHandler: @escaping (_ result: FetchResults) -> ()) {
         
         let contactStore: CNContactStore = CNContactStore()
         var contacts: [CNContact] = [CNContact]()
@@ -188,7 +188,7 @@ public struct Contacts {
     /// Get CNContact From Identifier
     /// - parameter identifier: A value that uniquely identifies a contact on the device.
     /// - parameter completionHandler: Returns Either CNContact or Error.
-    public static func getContactFromID(Identifires identifiers: [String], completionHandler: @escaping (_ result: FetchResults) -> ()) {
+    static func getContactFromID(Identifires identifiers: [String], completionHandler: @escaping (_ result: FetchResults) -> ()) {
         
         let contactStore: CNContactStore = CNContactStore()
         var contacts: [CNContact] = [CNContact]()
@@ -203,13 +203,13 @@ public struct Contacts {
 }
 
 
-public struct Telephone {
+struct Telephone {
     
     // PRAGMA MARK: - CoreTelephonyCheck
     
     /// Check if iOS Device supports phone calls
     /// - parameter completionHandler: Returns Bool.
-    public static func isCapableToCall(completionHandler: @escaping (_ result: Bool) -> ()) {
+    static func isCapableToCall(completionHandler: @escaping (_ result: Bool) -> ()) {
         if UIApplication.shared.canOpenURL(NSURL(string: "tel://")! as URL) {
             // Check if iOS Device supports phone calls
             // User will get an alert error when they will try to make a phone call in airplane mode
@@ -229,7 +229,7 @@ public struct Telephone {
     
     /// Check if iOS Device supports sms
     /// - parameter completionHandler: Returns Bool.
-    public static func isCapableToSMS(completionHandler: @escaping (_ result: Bool) -> ()) {
+    static func isCapableToSMS(completionHandler: @escaping (_ result: Bool) -> ()) {
         if UIApplication.shared.canOpenURL(NSURL(string: "sms:")! as URL) {
             completionHandler(true)
         } else {
@@ -240,7 +240,7 @@ public struct Telephone {
     
     /// Convert CNPhoneNumber To digits
     /// - parameter CNPhoneNumber: Phone number.
-    public static func CNPhoneNumberToString(CNPhoneNumber: CNPhoneNumber) -> String {
+    static func CNPhoneNumberToString(CNPhoneNumber: CNPhoneNumber) -> String {
         if let result: String = CNPhoneNumber.value(forKey: "digits") as? String {
             return result
         }
@@ -249,18 +249,23 @@ public struct Telephone {
     
     /// Make call to given number.
     /// - parameter CNPhoneNumber: Phone number.
-    public static func makeCall(CNPhoneNumber: CNPhoneNumber) {
+    static func makeCall(CNPhoneNumber: CNPhoneNumber) {
         if let phoneNumber: String = CNPhoneNumber.value(forKey: "digits") as? String {
             guard let url: URL = URL(string: "tel://" + "\(phoneNumber)") else {
                 print("Error in Making Call")
                 return
             }
             if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
             } else {
                 // Fallback on earlier versions
                 UIApplication.shared.openURL(url)
             }
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

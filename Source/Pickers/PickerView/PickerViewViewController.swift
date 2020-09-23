@@ -16,9 +16,9 @@ extension UIAlertController {
 
 final class PickerViewViewController: UIViewController {
     
-    public typealias Values = [[String]]
-    public typealias Index = (column: Int, row: Int)
-    public typealias Action = (_ vc: UIViewController, _ picker: UIPickerView, _ index: Index, _ values: Values) -> ()
+    typealias Values = [[String]]
+    typealias Index = (column: Int, row: Int)
+    typealias Action = (_ vc: UIViewController, _ picker: UIPickerView, _ index: Index, _ values: Values) -> ()
     
     fileprivate var action: Action?
     fileprivate var values: Values = [[]]
@@ -64,22 +64,22 @@ final class PickerViewViewController: UIViewController {
 extension PickerViewViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     // returns the number of 'columns' to display.
-    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return values.count
     }
     
     
     // returns the # of rows in each component..
-    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return values[component].count
     }
     /*
      // returns width of column and height of row for each component.
-     public func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
      
      }
      
-     public func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
      
      }
      */
@@ -87,20 +87,20 @@ extension PickerViewViewController: UIPickerViewDataSource, UIPickerViewDelegate
     // these methods return either a plain NSString, a NSAttributedString, or a view (e.g UILabel) to display the row for the component.
     // for the view versions, we cache any hidden and thus unused views and pass them back for reuse.
     // If you return back a different object, the old one will be released. the view will be centered in the row rect
-    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return values[component][row]
     }
     /*
-     public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
      // attributed title is favored if both methods are implemented
      }
      
      
-     public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
      
      }
      */
-    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         action?(self, pickerView, Index(column: component, row: row), values)
     }
 }

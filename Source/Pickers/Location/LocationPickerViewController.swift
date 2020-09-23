@@ -26,35 +26,35 @@ final class LocationPickerViewController: UIViewController {
 		let action: (CLLocation) -> ()
 	}
     
-    public typealias CompletionHandler = (Location?) -> ()
+    typealias CompletionHandler = (Location?) -> ()
 	
-	public var completion: CompletionHandler?
+	var completion: CompletionHandler?
 	
 	// region distance to be used for creation region when user selects place from search results
-	public var resultRegionDistance: CLLocationDistance = 600
+	var resultRegionDistance: CLLocationDistance = 600
 	
 	/// default: true
-	public var showCurrentLocationInitially = true
+	var showCurrentLocationInitially = true
 
     /// default: false
     /// Select current location only if `location` property is nil.
-    public var selectCurrentLocationInitially = true
+    var selectCurrentLocationInitially = true
 	
 	/// see `region` property of `MKLocalSearchRequest`
 	/// default: false
-	public var useCurrentLocationAsHint = false
+	var useCurrentLocationAsHint = false
 	
-	public var searchBarPlaceholder = "Search or enter an address"
-	public var searchHistoryLabel = "Search History"
-    public var selectButtonTitle = "Select"
+	var searchBarPlaceholder = "Search or enter an address"
+	var searchHistoryLabel = "Search History"
+    var selectButtonTitle = "Select"
 	
-	public var mapType: MKMapType = .standard {
+	var mapType: MKMapType = .standard {
 		didSet {
 			if isViewLoaded { mapView.mapType = mapType }
 		}
 	}
 	
-	public var location: Location? {
+	var location: Location? {
 		didSet {
 			if isViewLoaded {
 				searchController.searchBar.text = location.flatMap { $0.title } ?? ""
@@ -90,7 +90,7 @@ final class LocationPickerViewController: UIViewController {
         $0.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         $0.maskToBounds = true
         $0.cornerRadius = 22
-        $0.setImage(#imageLiteral(resourceName: "geolocation"), for: UIControlState())
+        $0.setImage(#imageLiteral(resourceName: "geolocation"), for: UIControl.State())
         $0.addTarget(self, action: #selector(LocationPickerViewController.currentLocationPressed),
                          for: .touchUpInside)
         return $0
@@ -129,11 +129,11 @@ final class LocationPickerViewController: UIViewController {
         let _ = searchController.view
 	}
 	
-	open override func loadView() {
+    public override func loadView() {
 		view = mapView
 	}
 	
-	open override func viewDidLoad() {
+    public override func viewDidLoad() {
 		super.viewDidLoad()
 		
         mapView.addSubview(scaleView)
@@ -167,7 +167,7 @@ final class LocationPickerViewController: UIViewController {
 	
 	var presentedInitialLocation = false
 	
-    override open func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         searchView.frame = CGRect(x: 8, y: 8, width: view.width - 16, height: 57)
         //searchController.searchBar.sizeToFit()
@@ -176,7 +176,7 @@ final class LocationPickerViewController: UIViewController {
         
     }
     
-    override open func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
         preferredContentSize.height = UIScreen.main.bounds.height
         
@@ -237,7 +237,7 @@ final class LocationPickerViewController: UIViewController {
 	}
 	
 	func showCoordinates(_ coordinate: CLLocationCoordinate2D, animated: Bool = true) {
-		let region = MKCoordinateRegionMakeWithDistance(coordinate, resultRegionDistance, resultRegionDistance)
+		let region = MKCoordinateRegion.init(center: coordinate, latitudinalMeters: resultRegionDistance, longitudinalMeters: resultRegionDistance)
 		mapView.setRegion(region, animated: animated)
 	}
 
@@ -276,7 +276,7 @@ final class LocationPickerViewController: UIViewController {
 
 extension LocationPickerViewController: CLLocationManagerDelegate {
     
-	public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		guard let location = locations.first else { return }
         currentLocationListeners.forEach { $0.action(location) }
 		currentLocationListeners = currentLocationListeners.filter { !$0.once }
@@ -287,7 +287,7 @@ extension LocationPickerViewController: CLLocationManagerDelegate {
 // MARK: Searching
 
 extension LocationPickerViewController: UISearchResultsUpdating {
-	public func updateSearchResults(for searchController: UISearchController) {
+	func updateSearchResults(for searchController: UISearchController) {
 		guard let term = searchController.searchBar.text else { return }
 		
 		searchTimer?.invalidate()
@@ -314,7 +314,7 @@ extension LocationPickerViewController: UISearchResultsUpdating {
 			let term = userInfo[LocationPickerViewController.SearchTermKey] as? String
 			else { return }
 		
-		let request = MKLocalSearchRequest()
+		let request = MKLocalSearch.Request()
 		request.naturalLanguageQuery = term
 		
 		if let location = locationManager.location, useCurrentLocationAsHint {
@@ -329,7 +329,7 @@ extension LocationPickerViewController: UISearchResultsUpdating {
 		}
 	}
 	
-	func showItemsForSearchResult(_ searchResult: MKLocalSearchResponse?) {
+	func showItemsForSearchResult(_ searchResult: MKLocalSearch.Response?) {
 		results.locations = searchResult?.mapItems.map { Location(name: $0.name, placemark: $0.placemark) } ?? []
 		results.isShowingHistory = false
 		results.tableView.reloadData()
@@ -366,7 +366,7 @@ extension LocationPickerViewController {
 // MARK: MKMapViewDelegate
 
 extension LocationPickerViewController: MKMapViewDelegate {
-	public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 		if annotation is MKUserLocation { return nil }
 		
 		let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "annotation")
@@ -382,13 +382,13 @@ extension LocationPickerViewController: MKMapViewDelegate {
 	
 	func selectLocationButton() -> UIButton {
 		let button = UIButton(frame: CGRect(x: 0, y: 0, width: 70, height: 30))
-		button.setTitle(selectButtonTitle, for: UIControlState())
+		button.setTitle(selectButtonTitle, for: UIControl.State())
         if let titleLabel = button.titleLabel {
             let width = titleLabel.textRect(forBounds: CGRect(x: 0, y: 0, width: Int.max, height: 30), limitedToNumberOfLines: 1).width
             button.frame.size = CGSize(width: width + 10, height: 30.0)
         }
         button.backgroundColor = UIColor(hex: 0x007AFF)
-		button.setTitleColor(.white, for: UIControlState())
+		button.setTitleColor(.white, for: UIControl.State())
         button.borderWidth = 2
         button.borderColor = UIColor(hex: 0x007AFF)
         button.cornerRadius = 5
@@ -397,7 +397,7 @@ extension LocationPickerViewController: MKMapViewDelegate {
 		return button
 	}
 	
-	public func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+	func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 		completion?(location)
 		if let navigation = navigationController, navigation.viewControllers.count > 1 {
 			navigation.popViewController(animated: true)
@@ -406,7 +406,7 @@ extension LocationPickerViewController: MKMapViewDelegate {
 		}
 	}
 	
-	public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+	func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
 		let pins = mapView.annotations.filter { $0 is MKPinAnnotationView }
 		assert(pins.count <= 1, "Only 1 pin annotation should be on map at a time")
 
@@ -417,7 +417,7 @@ extension LocationPickerViewController: MKMapViewDelegate {
 }
 
 extension LocationPickerViewController: UIGestureRecognizerDelegate {
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
@@ -425,7 +425,7 @@ extension LocationPickerViewController: UIGestureRecognizerDelegate {
 // MARK: UISearchBarDelegate
 
 extension LocationPickerViewController: UISearchBarDelegate {
-	public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		// dirty hack to show history when there is no text in search bar
 		// to be replaced later (hopefully)
 		if let text = searchBar.text, text.isEmpty {
@@ -433,7 +433,7 @@ extension LocationPickerViewController: UISearchBarDelegate {
 		}
 	}
 	
-	public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		// remove location if user presses clear or removes text
 		if searchText.isEmpty {
 			location = nil

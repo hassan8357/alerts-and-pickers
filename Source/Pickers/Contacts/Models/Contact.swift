@@ -1,7 +1,7 @@
 import UIKit
 import Contacts
 
-public struct Contact {
+struct Contact {
     
     var value: CNContact
     
@@ -15,7 +15,7 @@ public struct Contact {
     var phones: [(number: String, label: String)] = []
     var emails: [(email: String, label: String )] = []
     
-    public init(contact: CNContact) {
+    init(contact: CNContact) {
         value = contact
         firstName = contact.givenName
         lastName = contact.familyName

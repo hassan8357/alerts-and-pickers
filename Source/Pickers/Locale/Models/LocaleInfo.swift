@@ -1,30 +1,30 @@
 import UIKit
 
-public struct LocaleInfo {
+struct LocaleInfo {
     
-    public var locale: Locale?
+    var locale: Locale?
     
-    public var id: String? {
+    var id: String? {
         return locale?.identifier
     }
     
-    public var country: String
-    public var code: String
-    public var phoneCode: String
+    var country: String
+    var code: String
+    var phoneCode: String
     
-    public var flag: UIImage? {
+    var flag: UIImage? {
         return UIImage(named: "Countries.bundle/Images/\(code.uppercased())", in: Bundle.main, compatibleWith: nil)
     }
     
-    public var currencyCode: String? {
+    var currencyCode: String? {
         return locale?.currencyCode
     }
     
-    public var currencySymbol: String? {
+    var currencySymbol: String? {
         return locale?.currencySymbol
     }
     
-    public var currencyName: String? {
+    var currencyName: String? {
         guard let currencyCode = currencyCode else { return nil }
         return locale?.localizedString(forCurrencyCode: currencyCode)
     }

@@ -245,7 +245,7 @@
 "code": "CG"
 },
 {
-"name": "Congo, The Democratic Republic of the Congo",
+"name": "Congo, The Democratic Reof the Congo",
 "dial_code": "+243",
 "code": "CD"
 },
@@ -495,7 +495,7 @@
 "code": "ID"
 },
 {
-"name": "Iran, Islamic Republic of Persian Gulf",
+"name": "Iran, Islamic Reof Persian Gulf",
 "dial_code": "+98",
 "code": "IR"
 },
@@ -560,12 +560,12 @@
 "code": "KI"
 },
 {
-"name": "Korea, Democratic People's Republic of Korea",
+"name": "Korea, Democratic People's Reof Korea",
 "dial_code": "+850",
 "code": "KP"
 },
 {
-"name": "Korea, Republic of South Korea",
+"name": "Korea, Reof South Korea",
 "dial_code": "+82",
 "code": "KR"
 },
@@ -1070,7 +1070,7 @@
 "code": "TJ"
 },
 {
-"name": "Tanzania, United Republic of Tanzania",
+"name": "Tanzania, United Reof Tanzania",
 "dial_code": "+255",
 "code": "TZ"
 },
@@ -1170,7 +1170,7 @@
 "code": "VU"
 },
 {
-"name": "Venezuela, Bolivarian Republic of Venezuela",
+"name": "Venezuela, Bolivarian Reof Venezuela",
 "dial_code": "+58",
 "code": "VE"
 },
